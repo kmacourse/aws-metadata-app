@@ -17,4 +17,6 @@ public class MetadataController {
     public String getMetadata() {
         return metadataService.getRegionAndAZ();
     }
+
+
 }

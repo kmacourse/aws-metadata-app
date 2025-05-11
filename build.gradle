@@ -19,7 +19,18 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'com.amazonaws:aws-java-sdk-core:1.12.780'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'com.amazonaws:aws-java-sdk:1.12.314'
+	implementation 'com.google.code.gson:gson:2.9.1'
+	implementation 'jakarta.validation:jakarta.validation-api:3.0.2'
+	implementation 'mysql:mysql-connector-java:8.0.30'
+
+	compileOnly 'org.projectlombok:lombok:1.18.30'
+	annotationProcessor 'org.projectlombok:lombok:1.18.30'
+
+	implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
