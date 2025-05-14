@@ -6,6 +6,8 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -46,6 +48,17 @@ public class ImageController {
     @GetMapping(value = "/{name}", produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getImage(@PathVariable String name) {
         return imageService.findImage(name);
+    }
+
+    @GetMapping("/download/{filename}")
+    public ResponseEntity<byte[]> download(@PathVariable String filename) {
+        byte[] fileBytes = imageService.downloadImageFile(filename);
+        String contentType = imageService.getContentType(filename);
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(contentType))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filename + "\"")
+                .body(fileBytes);
     }
 
     @PostMapping(consumes = MULTIPART_FORM_DATA_VALUE)

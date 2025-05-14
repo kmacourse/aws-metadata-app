@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -63,6 +64,20 @@ public class ImageService {
                 .findFirst()
                 .orElseThrow(NotFoundException::new);
         return new ResponseEntity<>(imageMapper.toDto(image, s3Service), OK);
+    }
+
+    public byte[] downloadImageFile(String name) {
+        return s3Service.downloadObject(name);
+    }
+
+    public String getContentType(String name) {
+        String extension = name.substring(name.lastIndexOf('.') + 1);
+        return switch (extension.toLowerCase()) {
+            case "jpg", "jpeg" -> MediaType.IMAGE_JPEG_VALUE;
+            case "png" -> MediaType.IMAGE_PNG_VALUE;
+            case "gif" -> MediaType.IMAGE_GIF_VALUE;
+            default -> MediaType.APPLICATION_OCTET_STREAM_VALUE;
+        };
     }
 
     @Transactional
