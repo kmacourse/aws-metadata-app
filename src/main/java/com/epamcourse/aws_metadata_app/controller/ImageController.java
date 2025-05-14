@@ -53,11 +53,13 @@ public class ImageController {
     @GetMapping("/download/{filename}")
     public ResponseEntity<byte[]> download(@PathVariable String filename) {
         byte[] fileBytes = imageService.downloadImageFile(filename);
-        String contentType = imageService.getContentType(filename);
+        var image = imageService.getImageFromDB(filename);
+        var contentType = imageService.getContentType(image);
+        String filenameWithExtension = image.getName() + "." + image.getFileExtension();
 
         return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(contentType))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filename + "\"")
+                .contentType(contentType)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filenameWithExtension + "\"")
                 .body(fileBytes);
     }
 

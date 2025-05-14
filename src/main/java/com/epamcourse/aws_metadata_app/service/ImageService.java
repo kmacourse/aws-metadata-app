@@ -70,16 +70,19 @@ public class ImageService {
         return s3Service.downloadObject(name);
     }
 
-    public String getContentType(String name) {
-        Image image = imageJpaRepository.findByName(name)
+    public Image getImageFromDB(String name) {
+        return imageJpaRepository.findByName(name)
                 .stream()
                 .findFirst()
                 .orElseThrow(NotFoundException::new);
+    }
+
+    public MediaType getContentType(Image image) {
         return switch (image.getFileExtension().toLowerCase()) {
-            case "jpg", "jpeg" -> MediaType.IMAGE_JPEG_VALUE;
-            case "png" -> MediaType.IMAGE_PNG_VALUE;
-            case "gif" -> MediaType.IMAGE_GIF_VALUE;
-            default -> MediaType.APPLICATION_OCTET_STREAM_VALUE;
+            case "jpg", "jpeg" -> MediaType.IMAGE_JPEG;
+            case "png" -> MediaType.IMAGE_PNG;
+            case "gif" -> MediaType.IMAGE_GIF;
+            default -> MediaType.APPLICATION_OCTET_STREAM;
         };
     }
 
