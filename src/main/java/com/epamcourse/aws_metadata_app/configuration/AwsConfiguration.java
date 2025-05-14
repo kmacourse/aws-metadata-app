@@ -11,15 +11,36 @@ import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 
+import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider;
+import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.sns.SnsClient;
+import software.amazon.awssdk.services.sqs.SqsClient;
+
 @Configuration
 @EnableScheduling
 public class AwsConfiguration {
 
     @Bean
-    public AmazonS3 amazonS3(@Value("${aws.mentoring.bucket-region}") String bucketRegion) {
+    public AmazonS3 amazonS3(@Value("${aws.region}") String bucketRegion) {
         return AmazonS3ClientBuilder.standard()
                 .withCredentials(new DefaultAWSCredentialsProviderChain())
                 .withRegion(fromName(bucketRegion))
+                .build();
+    }
+
+    @Bean
+    public SnsClient snsClient(@Value("${aws.region}") String bucketRegion) {
+        return SnsClient.builder()
+                .region(Region.of(bucketRegion))
+                .credentialsProvider(DefaultCredentialsProvider.create())
+                .build();
+    }
+
+    @Bean
+    public SqsClient sqsClient(@Value("${aws.region}") String bucketRegion) {
+        return SqsClient.builder()
+                .region(Region.of(bucketRegion))
+                .credentialsProvider(DefaultCredentialsProvider.create())
                 .build();
     }
 }

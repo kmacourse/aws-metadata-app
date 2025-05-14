@@ -21,7 +21,7 @@ public class S3Service {
 
 
     @Autowired
-    public S3Service(AmazonS3 s3, FileService fileService, @Value("${aws.mentoring.bucket-name}") String bucketName) {
+    public S3Service(AmazonS3 s3, FileService fileService, @Value("${aws.bucket-name}") String bucketName) {
         this.s3 = s3;
         this.fileService = fileService;
         this.bucketName = bucketName;

@@ -28,14 +28,19 @@ public class ImageService {
     private final ImageMapper imageMapper;
     private final S3Service s3Service;
     private final FileService fileService;
+    private final NotificationService notificationService;
 
     @Autowired
     public ImageService(ImageJpaRepository imageJpaRepository,
-                        ImageMapper imageMapper, S3Service s3Service, FileService fileService) {
+            ImageMapper imageMapper,
+            S3Service s3Service,
+            FileService fileService,
+            NotificationService notificationService) {
         this.imageJpaRepository = imageJpaRepository;
         this.imageMapper = imageMapper;
         this.s3Service = s3Service;
         this.fileService = fileService;
+        this.notificationService = notificationService;
     }
 
     public ResponseEntity<?> findImageMetadataByName(String name) {
@@ -73,6 +78,12 @@ public class ImageService {
 
         Image save = imageJpaRepository.save(image);
         ImageMetadataDto imageMetadataDto = imageMapper.toMetadataDto(save);
+
+        notificationService.sendImageUploadNotification(
+                save.getName(),
+                save.getSize(),
+                save.getFileExtension()
+        );
 
         return new ResponseEntity<>(imageMetadataDto, CREATED);
     }

@@ -25,6 +25,12 @@ dependencies {
 	implementation 'jakarta.validation:jakarta.validation-api:3.0.2'
 	implementation 'mysql:mysql-connector-java:8.0.30'
 
+	// AWS SDK v2
+	implementation platform("software.amazon.awssdk:bom:2.25.14")
+	implementation 'software.amazon.awssdk:sns'
+	implementation 'software.amazon.awssdk:sqs'
+	implementation 'software.amazon.awssdk:regions'
+
 	compileOnly 'org.projectlombok:lombok:1.18.30'
 	annotationProcessor 'org.projectlombok:lombok:1.18.30'
 
