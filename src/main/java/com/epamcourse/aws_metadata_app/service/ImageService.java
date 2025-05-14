@@ -71,8 +71,11 @@ public class ImageService {
     }
 
     public String getContentType(String name) {
-        String extension = name.substring(name.lastIndexOf('.') + 1);
-        return switch (extension.toLowerCase()) {
+        Image image = imageJpaRepository.findByName(name)
+                .stream()
+                .findFirst()
+                .orElseThrow(NotFoundException::new);
+        return switch (image.getFileExtension().toLowerCase()) {
             case "jpg", "jpeg" -> MediaType.IMAGE_JPEG_VALUE;
             case "png" -> MediaType.IMAGE_PNG_VALUE;
             case "gif" -> MediaType.IMAGE_GIF_VALUE;

@@ -105,7 +105,7 @@ public class NotificationService {
 
     public void sendImageUploadNotification(String fileName, long size, String extension) {
 
-        String downloadUrl = baseUrl + "/v1/images/" + fileName;
+        String downloadUrl = baseUrl + "/v1/images/download/" + fileName;
 
         String message = String.format("""
                 An image has been uploaded
