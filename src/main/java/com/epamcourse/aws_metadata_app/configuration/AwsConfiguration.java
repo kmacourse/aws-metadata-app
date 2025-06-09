@@ -13,6 +13,7 @@ import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 
 import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.lambda.LambdaClient;
 import software.amazon.awssdk.services.sns.SnsClient;
 import software.amazon.awssdk.services.sqs.SqsClient;
 
@@ -29,18 +30,25 @@ public class AwsConfiguration {
     }
 
     @Bean
-    public SnsClient snsClient(@Value("${aws.region}") String bucketRegion) {
+    public SnsClient snsClient(@Value("${aws.region}") String region) {
         return SnsClient.builder()
-                .region(Region.of(bucketRegion))
+                .region(Region.of(region))
                 .credentialsProvider(DefaultCredentialsProvider.create())
                 .build();
     }
 
     @Bean
-    public SqsClient sqsClient(@Value("${aws.region}") String bucketRegion) {
+    public SqsClient sqsClient(@Value("${aws.region}") String region) {
         return SqsClient.builder()
-                .region(Region.of(bucketRegion))
+                .region(Region.of(region))
                 .credentialsProvider(DefaultCredentialsProvider.create())
+                .build();
+    }
+
+    @Bean
+    public LambdaClient lambdaClient(@Value("${aws.region}") String region) {
+        return LambdaClient.builder()
+                .region(Region.of(region))
                 .build();
     }
 }

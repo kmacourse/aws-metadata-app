@@ -30,6 +30,7 @@ dependencies {
 	implementation 'software.amazon.awssdk:sns'
 	implementation 'software.amazon.awssdk:sqs'
 	implementation 'software.amazon.awssdk:regions'
+	implementation 'software.amazon.awssdk:lambda'
 
 	compileOnly 'org.projectlombok:lombok:1.18.30'
 	annotationProcessor 'org.projectlombok:lombok:1.18.30'
