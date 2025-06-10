@@ -1,0 +1,29 @@
+version: 0.2
+
+phases:
+    install:
+        runtime-versions:
+            java: corretto21
+            nodejs: 18
+        commands:
+            - pip install --upgrade aws-sam-cli
+
+    pre_build:
+        commands:
+            - cd src && npm install && cd ..
+            - chmod +x ./gradlew
+
+    build:
+        commands:
+            - ./gradlew clean bootJar
+            - aws s3 cp build/libs/aws-metadata-app.jar s3://epamcourse-ec2/
+            - sam build
+            - sam package --output-template-file packaged.yaml --s3-bucket ${ARTIFACT_BUCKET}
+
+artifacts:
+    files:
+        - build/libs/aws-metadata-app.jar
+        - packaged.yaml
+        - template.yaml
+        - src/**/*
+    discard-paths: no

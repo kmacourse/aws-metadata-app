@@ -1,0 +1,39 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: SAM template for UploadsNotificationFunction
+
+Parameters:
+  SQSQueueArn:
+    Type: String
+    Description: The ARN of the existing SQS Queue
+    Default: arn:aws:sqs:us-west-1:522814711541:KMAEpamCourse-UploadsNotificationQueue
+
+Resources:
+  UploadsNotificationFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: EpamCourse-UploadsNotificationFunction
+      CodeUri: ./src
+      Handler: index.handler
+      Runtime: nodejs18.x
+      Timeout: 30
+      AutoPublishAlias: live
+      DeploymentPreference:
+        Type: Canary10Percent10Minutes
+      Policies:
+        - Statement:
+            - Effect: Allow
+              Action:
+                - sns:Publish
+                - sqs:ReceiveMessage
+                - sqs:DeleteMessage
+                - sqs:GetQueueAttributes
+              Resource:
+                - !Ref SQSQueueArn
+                - arn:aws:sns:us-west-1:522814711541:KMAEpamCourse-UploadsNotificationTopic
+      Events:
+        MySQSEvent:
+          Type: SQS
+          Properties:
+            Queue: !Ref SQSQueueArn
+            BatchSize: 10

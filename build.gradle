@@ -13,6 +13,10 @@ java {
 	}
 }
 
+bootJar {
+	archiveFileName = 'aws-metadata-app.jar'
+}
+
 repositories {
 	mavenCentral()
 }

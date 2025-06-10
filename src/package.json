@@ -1,0 +1,7 @@
+{
+  "name": "uploads-notification-function",
+  "version": "1.0.0",
+  "dependencies": {
+    "@aws-sdk/client-sns": "^3.370.0"
+  }
+}

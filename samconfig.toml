@@ -1,0 +1,12 @@
+version = 0.1
+[default]
+[default.deploy]
+[default.deploy.parameters]
+stack_name = "KMAEpamCourse-SamStack"
+region = "us-west-1"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
+resolve_s3 = true
+s3_prefix = "KMAEpamCourse-SamStack"
+image_repositories = []
+parameter_overrides = "SQSQueueArn=\"arn:aws:sqs:us-west-1:522814711541:KMAEpamCourse-UploadsNotificationQueue\""
