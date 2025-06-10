@@ -12,6 +12,7 @@ phases:
         commands:
             - cd src && npm install && cd ..
             - chmod +x ./gradlew
+            - echo "Starting build with artifact bucket: ${ARTIFACT_BUCKET}"
 
     build:
         commands:
@@ -19,6 +20,7 @@ phases:
             - aws s3 cp build/libs/aws-metadata-app.jar s3://epamcourse-ec2/
             - sam build
             - sam package --output-template-file packaged.yaml --s3-bucket ${ARTIFACT_BUCKET}
+            - echo "SAM package completed, artifacts stored in ${ARTIFACT_BUCKET}"
 
 artifacts:
     files:
@@ -27,3 +29,8 @@ artifacts:
         - template.yaml
         - src/**/*
     discard-paths: no
+
+cache:
+    paths:
+        - '/root/.gradle/caches/**/*'
+        - '/root/.gradle/wrapper/**/*'
