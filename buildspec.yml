@@ -24,13 +24,6 @@ phases:
 
 artifacts:
     files:
-        - build/libs/aws-metadata-app.jar
         - packaged.yaml
         - template.yaml
-        - src/**/*
     discard-paths: no
-
-cache:
-    paths:
-        - '/root/.gradle/caches/**/*'
-        - '/root/.gradle/wrapper/**/*'
