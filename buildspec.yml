@@ -12,7 +12,7 @@ phases:
         commands:
             - cd src && npm install && cd ..
             - chmod +x ./gradlew
-            - echo "Starting build with artifact bucket: ${ARTIFACT_BUCKET}"
+            - echo "Starting build with artifact bucket - ${ARTIFACT_BUCKET}"
 
     build:
         commands:
